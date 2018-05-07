@@ -1,0 +1,578 @@
+username: "{{ hpmsa.username }}"
+password: "{{ hpmsa.password }}"
+metrics:
+   sources:
+      - path: "host-port-statistics"
+        objects:
+          host-port-statistics:
+            - name: "hostport_data_read"
+              desc: "Data Read"
+              property: "data-read-numeric"
+              label_map:
+                  durable-id: "port"
+            - name: "hostport_data_written"
+              desc: "Data Written"
+              property: "data-written-numeric"
+              label_map:
+                durable-id: "port"
+            - name: "hostport_avg_resp_time_read"
+              desc: "Read Response Time"
+              property: "avg-read-rsp-time"
+              label_map:
+                durable-id: "port"
+            - name: "hostport_avg_resp_time_write"
+              desc: "Write Response time"
+              property: "avg-write-rsp-time"
+              label_map:
+                durable-id: "port"
+            - name: "hostport_avg_resp_time"
+              desc: "I/O Response time"
+              property: "avg-rsp-time"
+              label_map:
+                durable-id: "port"
+            - name: "hostport_queue_depth"
+              desc: "Queue depth"
+              property: "queue-depth"
+              label_map:
+                durable-id: "port"
+            - name: "hostport_reads"
+              desc: "Reads"
+              property: "number-of-reads"
+              label_map:
+                durable-id: "port"
+            - name: "hostport_writes"
+              desc: "Writes"
+              property: "number-of-writes"
+              label_map:
+                durable-id: "port"
+      - path: "disks"
+        objects:
+          drive:
+            - name: "disk_temperature"
+              desc: "Temperature"
+              property: "temperature-numeric"
+              label_map:
+                  location: "location"
+                  serial-number: "serial"
+            - name: "disk_avg_resp_time"
+              desc: "Average I/O Response TIme"
+              property: "avg-rsp-time"
+              label_map:
+                  location: "location"
+                  serial-number: "serial"
+            - name: "disk_ssd_life_left"
+              desc: "SSD Life Remaining"
+              property: "ssd-life-left-numeric"
+              label_map:
+                  location: "location"
+                  serial-number: "serial"
+            - name: "disk_health"
+              desc: "Health"
+              property: "health-numeric"
+              label_map:
+                  location: "location"
+                  serial-number: "serial"
+      - path: "disk-statistics"
+        objects:
+          disk-statistics:
+            - name: "disk_iops"
+              desc: "IOPS"
+              property: "iops"
+              label_map:
+                  location: "location"
+                  serial-number: "serial"
+            - name: "disk_bps"
+              desc: "Bytes per second"
+              property: "bytes-per-second-numeric"
+              label_map:
+                  location: "location"
+                  serial-number: "serial"
+            - name: "disk_errors"
+              desc: "Errors"
+              property: "smart-count-1"
+              label_map:
+                  location: "location"
+                  serial-number: "serial"
+              labels:
+                  type: "smart"
+                  port: "1"
+            - name: "disk_errors"
+              desc: "Errors"
+              property: "smart-count-2"
+              label_map:
+                  location: "location"
+                  serial-number: "serial"
+              labels:
+                  type: "smart"
+                  port: "2"
+            - name: "disk_errors"
+              desc: "Errors"
+              property: "io-timeout-count-1"
+              label_map:
+                  location: "location"
+                  serial-number: "serial"
+              labels:
+                  type: "io-timeout"
+                  port: "1"
+            - name: "disk_errors"
+              desc: "Errors"
+              property: "io-timeout-count-2"
+              label_map:
+                  location: "location"
+                  serial-number: "serial"
+              labels:
+                  type: "io-timeout"
+                  port: "2"
+            - name: "disk_errors"
+              desc: "Errors"
+              property: "no-response-count-1"
+              label_map:
+                  location: "location"
+                  serial-number: "serial"
+              labels:
+                  type: "no-response"
+                  port: "1"
+            - name: "disk_errors"
+              desc: "Errors"
+              property: "no-response-count-2"
+              label_map:
+                  location: "location"
+                  serial-number: "serial"
+              labels:
+                  type: "no-response"
+                  port: "2"
+            - name: "disk_errors"
+              desc: "Errors"
+              property: "spinup-retry-count-1"
+              label_map:
+                  location: "location"
+                  serial-number: "serial"
+              labels:
+                  type: "spinup-retry"
+                  port: "1"
+            - name: "disk_errors"
+              desc: "Errors"
+              property: "spinup-retry-count-2"
+              label_map:
+                  location: "location"
+                  serial-number: "serial"
+              labels:
+                  type: "spinup-retry"
+                  port: "2"
+            - name: "disk_errors"
+              desc: "Errors"
+              property: "number-of-media-errors-1"
+              label_map:
+                  location: "location"
+                  serial-number: "serial"
+              labels:
+                  type: "media-errors"
+                  port: "1"
+            - name: "disk_errors"
+              desc: "Errors"
+              property: "number-of-media-errors-1"
+              label_map:
+                  location: "location"
+                  serial-number: "serial"
+              labels:
+                  type: "media-errors"
+                  port: "2"
+            - name: "disk_errors"
+              desc: "Errors"
+              property: "number-of-nonmedia-errors-1"
+              label_map:
+                  location: "location"
+                  serial-number: "serial"
+              labels:
+                  type: "nonmedia-errors"
+                  port: "1"
+            - name: "disk_errors"
+              desc: "Errors"
+              property: "number-of-nonmedia-errors-1"
+              label_map:
+                  location: "location"
+                  serial-number: "serial"
+              labels:
+                  type: "nonmedia-errors"
+                  port: "2"
+            - name: "disk_errors"
+              desc: "Errors"
+              property: "number-of-block-reassigns-1"
+              label_map:
+                  location: "location"
+                  serial-number: "serial"
+              labels:
+                  type: "block-reassigns"
+                  port: "1"
+            - name: "disk_errors"
+              desc: "Errors"
+              property: "number-of-block-reassigns-2"
+              label_map:
+                  location: "location"
+                  serial-number: "serial"
+              labels:
+                  type: "block-reassigns"
+                  port: "2"
+            - name: "disk_errors"
+              desc: "Errors"
+              property: "number-of-bad-blocks-1"
+              label_map:
+                  location: "location"
+                  serial-number: "serial"
+              labels:
+                  type: "bad-blocks"
+                  port: "1"
+            - name: "disk_errors"
+              desc: "Errors"
+              property: "number-of-bad-blocks-2"
+              label_map:
+                  location: "location"
+                  serial-number: "serial"
+              labels:
+                  type: "bad-blocks"
+                  port: "2"
+      - path: "volumes"
+        objects:
+          volume:
+            - name: "volume_health"
+              desc: "Health"
+              property: "health-numeric"
+              label_map:
+                  volume-name: "volume"
+            - name: "volume_size"
+              desc: "Size"
+              property: "size-numeric"
+              label_map:
+                  volume-name: "volume"
+            - name: "volume_total_size"
+              desc: "Total Size"
+              property: "total-size-numeric"
+              label_map:
+                  volume-name: "volume"
+            - name: "volume_allocated_size"
+              desc: "Allocated Size"
+              property: "allocated-size-numeric"
+              label_map:
+                  volume-name: "volume"
+            - name: "volume_blocks"
+              desc: "Blocks"
+              property: "blocks"
+              label_map:
+                  volume-name: "volume"
+      - path: "volume-statistics"
+        objects:
+          volume-statistics:
+            - name: "volume_iops"
+              desc: "IOPS"
+              property: "iops"
+              label_map:
+                  volume-name: "volume"
+            - name: "volume_bps"
+              desc: "Bytes per second"
+              property: "bytes-per-second-numeric"
+              label_map:
+                  volume-name: "volume"
+            - name: "volume_reads"
+              desc: "Reads"
+              property: "number-of-reads"
+              label_map:
+                  volume-name: "volume"
+            - name: "volume_writes"
+              desc: "Writes"
+              property: "number-of-writes"
+              label_map:
+                  volume-name: "volume"
+            - name: "volume_data_read"
+              desc: "Data Read"
+              property: "data-read-numeric"
+              label_map:
+                  volume-name: "volume"
+            - name: "volume_data_written"
+              desc: "Data Written"
+              property: "data-written-numeric"
+              label_map:
+                  volume-name: "volume"
+            - name: "volume_shared_pages"
+              desc: "Shared Pages"
+              property: "shared-pages"
+              label_map:
+                  volume-name: "volume"
+            - name: "volume_read_hits"
+              desc: "Read-Cache Hits"
+              property: "read-cache-hits"
+              label_map:
+                  volume-name: "volume"
+            - name: "volume_read_misses"
+              desc: "Read-Cache Misses"
+              property: "read-cache-misses"
+              label_map:
+                  volume-name: "volume"
+            - name: "volume_write_hits"
+              desc: "Write-Cache Hits"
+              property: "write-cache-hits"
+              label_map:
+                  volume-name: "volume"
+            - name: "volume_write_misses"
+              desc: "Write-Cache Misses"
+              property: "write-cache-misses"
+              label_map:
+                  volume-name: "volume"
+            - name: "volume_small_destage"
+              desc: "Small Destages"
+              property: "small-destages"
+              label_map:
+                  volume-name: "volume"
+            - name: "volume_full_stripe_write_destage"
+              desc: "Full Stripe Write Destages"
+              property: "full-stripe-write-destages"
+              label_map:
+                  volume-name: "volume"
+            - name: "volume_read_ahead_ops"
+              desc: "Read-Ahead Operations"
+              property: "read-ahead-operations"
+              label_map:
+                  volume-name: "volume"
+            - name: "volume_write_cache_space"
+              desc: "Write Cache Space"
+              property: "write-cache-space"
+              label_map:
+                  volume-name: "volume"
+            - name: "volume_write_cache_percent"
+              desc: "Write Cache Percentage"
+              property: "write-cache-percent"
+              label_map:
+                  volume-name: "volume"
+            - name: "volume_tier_distribution"
+              desc: "Volume tier distribution"
+              property: "percent-tier-ssd"
+              label_map:
+                  volume-name: "volume"
+              labels:
+                  tier: "Performance"
+            - name: "volume_tier_distribution"
+              desc: "Volume tier distribution"
+              property: "percent-tier-sas"
+              label_map:
+                  volume-name: "volume"
+              labels:
+                  tier: "Standard"
+            - name: "volume_tier_distribution"
+              desc: "Volume tier distribution"
+              property: "percent-tier-sata"
+              label_map:
+                  volume-name: "volume"
+              labels:
+                  tier: "Archive"
+            - name: "volume_tier_distribution"
+              desc: "Volume tier distribution"
+              property: "percent-allocated-rfc"
+              label_map:
+                  volume-name: "volume"
+              labels:
+                  tier: "RFC"
+      - path: "pool-statistics"
+        objects:
+          pool-statistics:
+            - name: "pool_data_read"
+              desc: "Data Read"
+              property: "data-read-numeric"
+              label_map:
+                  pool: "pool"
+                  serial-number: "serial"
+            - name: "pool_data_written"
+              desc: "Data Written"
+              property: "data-written-numeric"
+              label_map:
+                  pool: "pool"
+                  serial-number: "serial"
+            - name: "pool_avg_resp_time"
+              desc: "I/O Response Time"
+              property: "avg-rsp-time"
+              label_map:
+                  pool: "pool"
+                  serial-number: "serial"
+            - name: "pool_avg_resp_time_read"
+              desc: "Read Response Time"
+              property: "avg-read-rsp-time"
+              label_map:
+                  pool: "pool"
+                  serial-number: "serial"
+          tier-statistics:
+            - name: "tier_reads"
+              desc: "Reads"
+              property: "number-of-reads"
+              label_map:
+                  tier: "tier"
+                  pool: "pool"
+                  serial-number: "serial"
+            - name: "tier_writes"
+              desc: "Writes"
+              property: "number-of-writes"
+              label_map:
+                  tier: "tier"
+                  pool: "pool"
+                  serial-number: "serial"
+            - name: "tier_data_read"
+              desc: "Data Read"
+              property: "data-read-numeric"
+              label_map:
+                  tier: "tier"
+                  pool: "pool"
+                  serial-number: "serial"
+            - name: "tier_data_written"
+              desc: "Data Written"
+              property: "data-written-numeric"
+              label_map:
+                  tier: "tier"
+                  pool: "pool"
+                  serial-number: "serial"
+            - name: "tier_avg_resp_time"
+              desc: "I/O Response Time"
+              property: "avg-rsp-time"
+              label_map:
+                  tier: "tier"
+                  pool: "pool"
+                  serial-number: "serial"
+            - name: "tier_avg_resp_time_read"
+              desc: "Read Response Time"
+              property: "avg-read-rsp-time"
+              label_map:
+                  tier: "tier"
+                  pool: "pool"
+                  serial-number: "serial"
+            - name: "tier_avg_resp_time_write"
+              desc: "Write Response Time"
+              property: "avg-write-rsp-time"
+              label_map:
+                  tier: "tier"
+                  pool: "pool"
+                  serial-number: "serial"
+      - path: "pools"
+        objects:
+          pools:
+            - name: "pool_total_size"
+              desc: "Total Size"
+              property: "total-size-numeric"
+              label_map:
+                  name: "pool"
+                  serial-number: "serial"
+            - name: "pool_available_size"
+              desc: "Available Size"
+              property: "total-avail-numeric"
+              label_map:
+                  name: "pool"
+                  serial-number: "serial"
+            - name: "pool_snapshot_size"
+              desc: "Snapshot Size"
+              property: "snap-size-numeric"
+              label_map:
+                  name: "pool"
+                  serial-number: "serial"
+            - name: "pool_allocated_pages"
+              desc: "Allocated Pages"
+              property: "allocated-pages"
+              label_map:
+                  name: "pool"
+                  serial-number: "serial"
+            - name: "pool_available_pages"
+              desc: "Available Pages"
+              property: "available-pages"
+              label_map:
+                  name: "pool"
+                  serial-number: "serial"
+            - name: "pool_metadata_volume_size"
+              desc: "Metadata Volume Size"
+              property: "metadata-vol-size-numeric"
+              label_map:
+                  name: "pool"
+                  serial-number: "serial"
+            - name: "pool_total_rfc_size"
+              desc: "Total RFC Size"
+              property: "total-rfc-size-numeric"
+              label_map:
+                  name: "pool"
+                  serial-number: "serial"
+            - name: "pool_available_rfc_size"
+              desc: "Available RFC Size"
+              property: "available-rfc-size-numeric"
+              label_map:
+                  name: "pool"
+                  serial-number: "serial"
+            - name: "pool_reserved_size"
+              desc: "Reserved Size"
+              property: "reserved-size-numeric"
+              label_map:
+                  name: "pool"
+                  serial-number: "serial"
+            - name: "pool_unallocated_reserved_size"
+              desc: "Unallocated Reserved Size"
+              property: "reserved-unalloc-size-numeric"
+              label_map:
+                  name: "pool"
+                  serial-number: "serial"
+      - path: "enclosures"
+        objects:
+          enclosures:
+            - name: "enclosure_power"
+              desc: "Power consumption in watts"
+              property: "enclosure-power"
+              label_map:
+                  enclosure-id: "id"
+                  enclosure-wwn: "wwn"
+          power-supplies:
+            - name: "psu_health"
+              desc: "Power-supply unit health"
+              property: "health-numeric"
+              label_map:
+                  durable-id: "psu"
+                  serial-number: "serial"
+            - name: "psu_status"
+              desc: "Power-supply unit status"
+              property: "status-numeric"
+              label_map:
+                  durable-id: "psu"
+                  serial-number: "serial"
+      - path: "controller-statistics"
+        objects:
+          controller-statistics:
+            - name: "controller_cpu"
+              desc: "CPU Load"
+              property: "cpu-load"
+              label_map:
+                  durable-id: "controller"
+            - name: "controller_iops"
+              desc: "IOPS"
+              property: "iops"
+              label_map:
+                  durable-id: "controller"
+            - name: "controller_bps"
+              desc: "Bytes per second"
+              property: "bytes-per-second-numeric"
+              label_map:
+                  durable-id: "controller"
+            - name: "controller_read_hits"
+              desc: "Read-Cache Hits"
+              property: "read-cache-hits"
+              label_map:
+                  durable-id: "controller"
+            - name: "controller_read_misses"
+              desc: "Read-Cache Misses"
+              property: "read-cache-misses"
+              label_map:
+                  durable-id: "controller"
+            - name: "controller_write_hits"
+              desc: "Write-Cache Hits"
+              property: "write-cache-hits"
+              label_map:
+                  durable-id: "controller"
+            - name: "controller_write_misses"
+              desc: "Write-Cache Misses"
+              property: "write-cache-misses"
+              label_map:
+                  durable-id: "controller"
+      - path: "system"
+        objects:
+          system-information:
+            - name: "system_health"
+              desc: "System health"
+              property: "health-numeric"
