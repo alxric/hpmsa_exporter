@@ -1,13 +1,10 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
 	"io/ioutil"
 	"itops/hpmsa_exporter/collector"
 	"net/http"
-	"os"
-	"strings"
 
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
@@ -120,35 +117,6 @@ func readCfg() (*config, error) {
 	}
 	return c, nil
 
-}
-
-func parseInterface(filePath string, aseName string) (ip string, port string) {
-	f, err := os.Open(filePath)
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer f.Close()
-	scanner := bufio.NewScanner(f)
-	for scanner.Scan() {
-		if strings.ToLower(
-			strings.TrimSpace(scanner.Text()),
-		) == strings.ToLower(aseName) {
-			scanner.Scan()
-			line := strings.Split(strings.TrimSpace(scanner.Text()), " ")
-			ip = line[3]
-			port = line[4]
-		}
-	}
-	if err := scanner.Err(); err != nil {
-		log.Fatal(err)
-	}
-	if ip == "" || port == "" {
-		log.Fatal(fmt.Sprintf(
-			"Unable to find entry for %s in interfaces file",
-			aseName,
-		))
-	}
-	return
 }
 
 func filter(filters map[string]bool, name string, flag bool) bool {
