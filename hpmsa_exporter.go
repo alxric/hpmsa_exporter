@@ -3,14 +3,14 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
-	"itops/hpmsa_exporter/collector"
+	"log"
 	"net/http"
 
+	"github.com/alxric/hpmsa_exporter/collector"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
-	"github.com/prometheus/common/log"
 	"github.com/prometheus/common/version"
-	kingpin "gopkg.in/alecthomas/kingpin.v2"
+	kingpin "github.com/alecthomas/kingpin/v2"
 	yaml "gopkg.in/yaml.v2"
 )
 
@@ -36,12 +36,11 @@ var (
 )
 
 func main() {
-	log.AddFlags(kingpin.CommandLine)
 	kingpin.Version(version.Print("hpmsa_exporter"))
 	kingpin.HelpFlag.Short('h')
 	kingpin.Parse()
-	log.Infoln("Starting HPMSA exporter", version.Info())
-	log.Infoln("Build context", version.BuildContext())
+	log.Println("Starting HPMSA exporter", version.Info())
+	log.Println("Build context", version.BuildContext())
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte(`<html>
@@ -54,9 +53,9 @@ func main() {
 	})
 	http.HandleFunc(
 		*metricsPath,
-		prometheus.InstrumentHandlerFunc("metrics", handler),
+		handler,
 	)
-	log.Infoln("Listening on", *listenAddress)
+	log.Println("Listening on", *listenAddress)
 	log.Fatal(http.ListenAndServe(*listenAddress, nil))
 }
 
@@ -66,7 +65,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	if len(config) > 0 {
 		configPath = &config[0]
 	}
-	log.Debugln("collect query:", target)
+	log.Println("DEBUG: collect query:", target)
 	cfg, err := readCfg()
 	if err != nil {
 		log.Fatalf("Could not read config file: %v\n", err)
@@ -74,7 +73,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 	nc, err := collector.New(target[0], cfg.Username, cfg.Password, cfg.Metrics)
 	if err != nil {
-		log.Warnln("Couldn't create", err)
+		log.Println("WARN: Couldn't create", err)
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte(fmt.Sprintf("Couldn't create %s", err)))
 		return
@@ -83,7 +82,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	registry := prometheus.NewRegistry()
 	err = registry.Register(nc)
 	if err != nil {
-		log.Errorln("Couldn't register collector:", err)
+		log.Println("ERROR: Couldn't register collector:", err)
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte(fmt.Sprintf("Couldn't register collector: %s", err)))
 		return

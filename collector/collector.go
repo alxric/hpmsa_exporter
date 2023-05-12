@@ -7,14 +7,14 @@ import (
 	"encoding/xml"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net"
 	"net/http"
 	"sync"
 	"time"
 
 	"github.com/prometheus/client_golang/prometheus"
-	"github.com/prometheus/common/log"
-	kingpin "gopkg.in/alecthomas/kingpin.v2"
+	kingpin "github.com/alecthomas/kingpin/v2"
 )
 
 const (
@@ -120,7 +120,7 @@ func (e *Exporter) Describe(ch chan<- *prometheus.Desc) {
 func (e *Exporter) Collect(ch chan<- prometheus.Metric) {
 	err := e.connectAPI(ch)
 	if err != nil {
-		log.Error(err)
+		log.Print("ERROR: ", err)
 		ch <- prometheus.MustNewConstMetric(hpmsaUp, prometheus.GaugeValue, 0, "hpmsa_up")
 		return
 	}
@@ -160,7 +160,7 @@ func (e *Exporter) connectAPI(ch chan<- prometheus.Metric) error {
 	creds := hex.EncodeToString(hasher.Sum(nil))
 	req, err := http.NewRequest("GET", fmt.Sprintf("https://%s/api/login/%s", e.Target.Hostname, creds), nil)
 	if err != nil {
-		log.Error(err)
+		log.Print("ERROR: ", err)
 		ch <- prometheus.MustNewConstMetric(hpmsaUp, prometheus.GaugeValue, 0, "hpmsa_up")
 		return err
 	}
@@ -191,7 +191,7 @@ func (e *Exporter) connectAPI(ch chan<- prometheus.Metric) error {
 }
 
 func (e *Exporter) execute(name string, c Collector, ch chan<- prometheus.Metric) {
-	log.Info("executing ", name)
+	log.Print("executing ", name)
 	begin := time.Now()
 	var err error
 	err = c.Update(ch, e.Target)
@@ -199,10 +199,10 @@ func (e *Exporter) execute(name string, c Collector, ch chan<- prometheus.Metric
 	var success float64
 
 	if err != nil {
-		log.Errorf("ERROR: %s collector failed after %fs: %s", name, duration.Seconds(), err)
+		log.Printf("ERROR: %s collector failed after %fs: %s", name, duration.Seconds(), err)
 		success = 0
 	} else {
-		log.Debugf("OK: %s collector succeeded after %fs.", name, duration.Seconds())
+		log.Printf("OK: %s collector succeeded after %fs.", name, duration.Seconds())
 		success = 1
 	}
 	ch <- prometheus.MustNewConstMetric(scrapeDurationDesc, prometheus.GaugeValue, duration.Seconds(), name)

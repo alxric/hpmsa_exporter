@@ -2,11 +2,11 @@ package collector
 
 import (
 	"encoding/xml"
+	"log"
 	"strconv"
 	"sync"
 
 	"github.com/prometheus/client_golang/prometheus"
-	"github.com/prometheus/common/log"
 )
 
 const (
@@ -54,17 +54,17 @@ func (c *metricCollector) Update(ch chan<- prometheus.Metric, target *target) er
 			defer wg.Done()
 			b, err := APICall(target.Client, target.Hostname, target.SessionKey, source.Path)
 			if err != nil {
-				log.Error(err)
+				log.Print("ERROR: ", err)
 				return
 			}
 			x := &Response{}
 			err = xml.Unmarshal(b, x)
 			if err != nil {
-				log.Error(err)
+				log.Print("ERROR: ", err)
 				return
 			}
 			if err := ParseXML(ch, x, source); err != nil {
-				log.Error(err)
+				log.Print("ERROR: ", err)
 				return
 			}
 		}(source)
@@ -95,7 +95,7 @@ func ParseXML(ch chan<- prometheus.Metric, x *Response, source Source) error {
 				}
 				fval, err := strconv.ParseFloat(value, 64)
 				if err != nil {
-					log.Errorf("Unable to parse the value for %s which is %v: %v", obj.Name, value, err)
+					log.Printf("ERROR: Unable to parse the value for %s which is %v: %v", obj.Name, value, err)
 					continue
 				}
 				ch <- prometheus.MustNewConstMetric(

@@ -2,10 +2,10 @@ package main
 
 import (
 	"encoding/xml"
-	"itops/hpmsa_exporter/collector"
 	"sync"
 	"testing"
 
+	"github.com/alxric/hpmsa_exporter/collector"
 	"github.com/prometheus/client_golang/prometheus"
 	dto "github.com/prometheus/client_model/go"
 	yaml "gopkg.in/yaml.v2"
