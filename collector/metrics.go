@@ -2,10 +2,13 @@ package collector
 
 import (
 	"encoding/xml"
+	"io"
 	"log"
 	"strconv"
+	"strings"
 	"sync"
 
+	"github.com/antchfx/xmlquery"
 	"github.com/prometheus/client_golang/prometheus"
 )
 
@@ -21,6 +24,7 @@ type Metric struct {
 // Source describes a metric path
 type Source struct {
 	Path    string               `yaml:"path"`
+	XPath   string               `yaml:"xpath"`
 	Objects map[string][]*Object `yaml:"objects"`
 }
 
@@ -57,11 +61,26 @@ func (c *metricCollector) Update(ch chan<- prometheus.Metric, target *target) er
 				log.Print("ERROR: ", err)
 				return
 			}
-			x := &Response{}
-			err = xml.Unmarshal(b, x)
+			// Query XML response for target objects matching specified XPath
+			var r io.Reader
+			r = strings.NewReader(string(b))
+			root, err := xmlquery.Parse(r)
 			if err != nil {
 				log.Print("ERROR: ", err)
 				return
+			}
+			var nodes []*xmlquery.Node
+			nodes = xmlquery.Find(root, source.XPath)
+			// Unmarshal into a Response struct that only contains the objects we care about
+			x := &Response{}
+			for _, node := range nodes {
+				o := &object{}
+				err = xml.Unmarshal([]byte(node.OutputXML(true)), o)
+				if err != nil {
+					log.Print("ERROR: ", err)
+					return
+				}
+				x.Object = append(x.Object, *o)
 			}
 			if err := ParseXML(ch, x, source); err != nil {
 				log.Print("ERROR: ", err)

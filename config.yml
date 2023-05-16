@@ -3,6 +3,7 @@ password: "{{ hpmsa.password }}"
 metrics:
    sources:
       - path: "host-port-statistics"
+        xpath: "/RESPONSE/OBJECT[@name='host-port-statistics']"
         objects:
           host-port-statistics:
             - name: "hostport_data_read"
@@ -46,6 +47,7 @@ metrics:
               label_map:
                 durable-id: "port"
       - path: "disks"
+        xpath: "/RESPONSE/OBJECT[@name='disks']"
         objects:
           drive:
             - name: "disk_temperature"
@@ -73,6 +75,7 @@ metrics:
                   location: "location"
                   serial-number: "serial"
       - path: "disk-statistics"
+        xpath: "/RESPONSE/OBJECT[@name='disk-statistics']"
         objects:
           disk-statistics:
             - name: "disk_iops"
@@ -232,6 +235,7 @@ metrics:
                   type: "bad-blocks"
                   port: "2"
       - path: "volumes"
+        xpath: "/RESPONSE/OBJECT[@name='volumes']"
         objects:
           volume:
             - name: "volume_health"
@@ -260,6 +264,7 @@ metrics:
               label_map:
                   volume-name: "volume"
       - path: "volume-statistics"
+        xpath: "/RESPONSE/OBJECT[@name='volume-statistics']"
         objects:
           volume-statistics:
             - name: "volume_iops"
@@ -371,6 +376,7 @@ metrics:
               labels:
                   tier: "RFC"
       - path: "pool-statistics"
+        xpath: "/RESPONSE/OBJECT[@name='pool-statistics']"
         objects:
           pool-statistics:
             - name: "pool_data_read"
@@ -397,6 +403,9 @@ metrics:
               label_map:
                   pool: "pool"
                   serial-number: "serial"
+      - path: "pool-statistics"
+        xpath: "/RESPONSE/OBJECT[@name='pool-statistics']/OBJECT[@name='tier-statistics']"
+        objects:
           tier-statistics:
             - name: "tier_reads"
               desc: "Reads"
@@ -448,6 +457,7 @@ metrics:
                   pool: "pool"
                   serial-number: "serial"
       - path: "pools"
+        xpath: "/RESPONSE/OBJECT[@name='pools']"
         objects:
           pools:
             - name: "pool_total_size"
@@ -511,6 +521,7 @@ metrics:
                   name: "pool"
                   serial-number: "serial"
       - path: "enclosures"
+        xpath: "/RESPONSE/OBJECT[@name='enclosures']"
         objects:
           enclosures:
             - name: "enclosure_power"
@@ -519,6 +530,9 @@ metrics:
               label_map:
                   enclosure-id: "id"
                   enclosure-wwn: "wwn"
+      - path: "enclosures"
+        xpath: "/RESPONSE/OBJECT[@name='enclosures']/OBJECT[@name='power-supplies']"
+        objects:
           power-supplies:
             - name: "psu_health"
               desc: "Power-supply unit health"
@@ -533,6 +547,7 @@ metrics:
                   durable-id: "psu"
                   serial-number: "serial"
       - path: "controller-statistics"
+        xpath: "/RESPONSE/OBJECT[@name='controller-statistics']"
         objects:
           controller-statistics:
             - name: "controller_cpu"
@@ -571,6 +586,7 @@ metrics:
               label_map:
                   durable-id: "controller"
       - path: "system"
+        xpath: "/RESPONSE/OBJECT[@name='system-information']"
         objects:
           system-information:
             - name: "system_health"
