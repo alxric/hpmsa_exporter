@@ -84,15 +84,7 @@ func ParseXML(ch chan<- prometheus.Metric, x *Response, source Source) error {
 					labelKeys = append(labelKeys, key)
 					labelVals = append(labelVals, val)
 				}
-				for _, property := range object.Property {
-					if property.Name == obj.Property {
-						value = property.Value
-					}
-					if _, ok := obj.LabelMap[property.Name]; ok {
-						labelKeys = append(labelKeys, obj.LabelMap[property.Name])
-						labelVals = append(labelVals, property.Value)
-					}
-				}
+				ParseObject(object, obj, &value, &labelKeys, &labelVals)
 				fval, err := strconv.ParseFloat(value, 64)
 				if err != nil {
 					log.Printf("ERROR: Unable to parse the value for %s which is %v: %v", obj.Name, value, err)
@@ -104,6 +96,34 @@ func ParseXML(ch chan<- prometheus.Metric, x *Response, source Source) error {
 						obj.Desc, labelKeys, nil,
 					), prometheus.GaugeValue, fval, labelVals...)
 			}
+		}
+	}
+	return nil
+}
+
+// ParseObject will parse individual objects for their properties and also loop into resettable-statistics
+func ParseObject(object object, obj *Object, value *string, labelKeys *[]string, labelVals *[]string) error {
+	for _, property := range object.Property {
+		if property.Name == obj.Property {
+			*value = property.Value
+		}
+		if _, ok := obj.LabelMap[property.Name]; ok {
+			var alreadyExists bool = false
+			for _, k := range *labelKeys {
+				if k == obj.LabelMap[property.Name] {
+					alreadyExists = true
+					break
+				}
+			}
+			if !alreadyExists {
+				*labelKeys = append(*labelKeys, obj.LabelMap[property.Name])
+				*labelVals = append(*labelVals, property.Value)
+			}
+		}
+	}
+	for _, subobject := range object.Object {
+		if subobject.Name == "resettable-statistics" {
+			ParseObject(subobject, obj, value, labelKeys, labelVals)
 		}
 	}
 	return nil

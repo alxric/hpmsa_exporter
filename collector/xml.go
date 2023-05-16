@@ -7,6 +7,7 @@ type Response struct {
 
 type object struct {
 	Property []property `xml:"PROPERTY"`
+	Object   []object   `xml:"OBJECT"`
 	BaseType string     `xml:"basetype,attr"`
 	Name     string     `xml:"name,attr"`
 }
