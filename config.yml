@@ -6,48 +6,48 @@ metrics:
         xpath: "/RESPONSE/OBJECT[@name='host-port-statistics']"
         objects:
           host-port-statistics:
-            - name: "hostport_data_read"
+            - name: "hostport_read_bytes_total"
               desc: "Data Read"
               property: "data-read-numeric"
               label_map:
                   durable-id: "port"
-            - name: "hostport_data_written"
+            - name: "hostport_write_bytes_total"
               desc: "Data Written"
               property: "data-written-numeric"
               label_map:
                 durable-id: "port"
-            - name: "hostport_avg_resp_time_read"
+            - name: "hostport_read_time_microseconds_average"
               desc: "Read Response Time"
               property: "avg-read-rsp-time"
               label_map:
                 durable-id: "port"
-            - name: "hostport_avg_resp_time_write"
+            - name: "hostport_write_time_microseconds_average"
               desc: "Write Response time"
               property: "avg-write-rsp-time"
               label_map:
                 durable-id: "port"
-            - name: "hostport_avg_resp_time"
+            - name: "hostport_io_time_microseconds_average"
               desc: "I/O Response time"
               property: "avg-rsp-time"
               label_map:
                 durable-id: "port"
-            - name: "hostport_queue_depth"
+            - name: "hostport_requests_queued"
               desc: "Queue depth"
               property: "queue-depth"
               label_map:
                 durable-id: "port"
-            - name: "hostport_reads"
+            - name: "hostport_reads_total"
               desc: "Reads"
               property: "number-of-reads"
               label_map:
                 durable-id: "port"
-            - name: "hostport_writes"
+            - name: "hostport_writes_total"
               desc: "Writes"
               property: "number-of-writes"
               label_map:
                 durable-id: "port"
       - path: "disks"
-        xpath: "/RESPONSE/OBJECT[@name='disks']"
+        xpath: "/RESPONSE/OBJECT[@name='drive']"
         objects:
           drive:
             - name: "disk_temperature"
@@ -56,15 +56,21 @@ metrics:
               label_map:
                   location: "location"
                   serial-number: "serial"
-            - name: "disk_avg_resp_time"
-              desc: "Average I/O Response TIme"
+            - name: "disk_io_time_microseconds_average"
+              desc: "Average I/O Response Time"
               property: "avg-rsp-time"
               label_map:
                   location: "location"
                   serial-number: "serial"
-            - name: "disk_ssd_life_left"
+            - name: "disk_ssd_life_left_percent"
               desc: "SSD Life Remaining"
               property: "ssd-life-left-numeric"
+              label_map:
+                  location: "location"
+                  serial-number: "serial"
+            - name: "disk_hours"
+              desc: "Power on hours"
+              property: "power-on-hours"
               label_map:
                   location: "location"
                   serial-number: "serial"
@@ -78,15 +84,33 @@ metrics:
         xpath: "/RESPONSE/OBJECT[@name='disk-statistics']"
         objects:
           disk-statistics:
-            - name: "disk_iops"
-              desc: "IOPS"
-              property: "iops"
+            - name: "disk_reads_total"
+              desc: "Reads"
+              property: "number-of-reads"
               label_map:
                   location: "location"
                   serial-number: "serial"
-            - name: "disk_bps"
-              desc: "Bytes per second"
-              property: "bytes-per-second-numeric"
+            - name: "disk_writes_total"
+              desc: "Writes"
+              property: "number-of-writes"
+              label_map:
+                  location: "location"
+                  serial-number: "serial"
+            - name: "disk_read_bytes_total"
+              desc: "Data Read"
+              property: "data-read-numeric"
+              label_map:
+                  location: "location"
+                  serial-number: "serial"
+            - name: "disk_write_bytes_total"
+              desc: "Data Written"
+              property: "data-written-numeric"
+              label_map:
+                  location: "location"
+                  serial-number: "serial"
+            - name: "disk_requests_queued"
+              desc: "Queue Depth"
+              property: "queue-depth"
               label_map:
                   location: "location"
                   serial-number: "serial"
@@ -235,7 +259,7 @@ metrics:
                   type: "bad-blocks"
                   port: "2"
       - path: "volumes"
-        xpath: "/RESPONSE/OBJECT[@name='volumes']"
+        xpath: "/RESPONSE/OBJECT[@name='volume']"
         objects:
           volume:
             - name: "volume_health"
@@ -243,17 +267,17 @@ metrics:
               property: "health-numeric"
               label_map:
                   volume-name: "volume"
-            - name: "volume_size"
+            - name: "volume_size_blocks"
               desc: "Size"
               property: "size-numeric"
               label_map:
                   volume-name: "volume"
-            - name: "volume_total_size"
+            - name: "volume_total_size_blocks"
               desc: "Total Size"
               property: "total-size-numeric"
               label_map:
                   volume-name: "volume"
-            - name: "volume_allocated_size"
+            - name: "volume_allocated_size_blocks"
               desc: "Allocated Size"
               property: "allocated-size-numeric"
               label_map:
@@ -267,32 +291,22 @@ metrics:
         xpath: "/RESPONSE/OBJECT[@name='volume-statistics']"
         objects:
           volume-statistics:
-            - name: "volume_iops"
-              desc: "IOPS"
-              property: "iops"
-              label_map:
-                  volume-name: "volume"
-            - name: "volume_bps"
-              desc: "Bytes per second"
-              property: "bytes-per-second-numeric"
-              label_map:
-                  volume-name: "volume"
-            - name: "volume_reads"
+            - name: "volume_reads_total"
               desc: "Reads"
               property: "number-of-reads"
               label_map:
                   volume-name: "volume"
-            - name: "volume_writes"
+            - name: "volume_writes_total"
               desc: "Writes"
               property: "number-of-writes"
               label_map:
                   volume-name: "volume"
-            - name: "volume_data_read"
+            - name: "volume_read_bytes_total"
               desc: "Data Read"
               property: "data-read-numeric"
               label_map:
                   volume-name: "volume"
-            - name: "volume_data_written"
+            - name: "volume_write_bytes_total"
               desc: "Data Written"
               property: "data-written-numeric"
               label_map:
@@ -302,73 +316,73 @@ metrics:
               property: "shared-pages"
               label_map:
                   volume-name: "volume"
-            - name: "volume_read_hits"
+            - name: "volume_read_cache_hits_total"
               desc: "Read-Cache Hits"
               property: "read-cache-hits"
               label_map:
                   volume-name: "volume"
-            - name: "volume_read_misses"
+            - name: "volume_read_cache_misses_total"
               desc: "Read-Cache Misses"
               property: "read-cache-misses"
               label_map:
                   volume-name: "volume"
-            - name: "volume_write_hits"
+            - name: "volume_write_cache_hits_total"
               desc: "Write-Cache Hits"
               property: "write-cache-hits"
               label_map:
                   volume-name: "volume"
-            - name: "volume_write_misses"
+            - name: "volume_write_cache_misses_total"
               desc: "Write-Cache Misses"
               property: "write-cache-misses"
               label_map:
                   volume-name: "volume"
-            - name: "volume_small_destage"
+            - name: "volume_small_destage_total"
               desc: "Small Destages"
               property: "small-destages"
               label_map:
                   volume-name: "volume"
-            - name: "volume_full_stripe_write_destage"
+            - name: "volume_full_stripe_write_destage_total"
               desc: "Full Stripe Write Destages"
               property: "full-stripe-write-destages"
               label_map:
                   volume-name: "volume"
-            - name: "volume_read_ahead_ops"
+            - name: "volume_read_ahead_ops_total"
               desc: "Read-Ahead Operations"
               property: "read-ahead-operations"
               label_map:
                   volume-name: "volume"
-            - name: "volume_write_cache_space"
+            - name: "volume_write_cache_size_chunks"
               desc: "Write Cache Space"
               property: "write-cache-space"
               label_map:
                   volume-name: "volume"
-            - name: "volume_write_cache_percent"
+            - name: "volume_write_cache_used_percent"
               desc: "Write Cache Percentage"
               property: "write-cache-percent"
               label_map:
                   volume-name: "volume"
-            - name: "volume_tier_distribution"
+            - name: "volume_tier_percent"
               desc: "Volume tier distribution"
               property: "percent-tier-ssd"
               label_map:
                   volume-name: "volume"
               labels:
                   tier: "Performance"
-            - name: "volume_tier_distribution"
+            - name: "volume_tier_percent"
               desc: "Volume tier distribution"
               property: "percent-tier-sas"
               label_map:
                   volume-name: "volume"
               labels:
                   tier: "Standard"
-            - name: "volume_tier_distribution"
+            - name: "volume_tier_percent"
               desc: "Volume tier distribution"
               property: "percent-tier-sata"
               label_map:
                   volume-name: "volume"
               labels:
                   tier: "Archive"
-            - name: "volume_tier_distribution"
+            - name: "volume_tier_percent"
               desc: "Volume tier distribution"
               property: "percent-allocated-rfc"
               label_map:
@@ -379,25 +393,37 @@ metrics:
         xpath: "/RESPONSE/OBJECT[@name='pool-statistics']"
         objects:
           pool-statistics:
-            - name: "pool_data_read"
+            - name: "pool_reads_total"
+              desc: "Reads"
+              property: "number-of-reads"
+              label_map:
+                  pool: "pool"
+                  serial-number: "serial"
+            - name: "pool_writes_total"
+              desc: "Writes"
+              property: "number-of-writes"
+              label_map:
+                  pool: "pool"
+                  serial-number: "serial"
+            - name: "pool_read_bytes_total"
               desc: "Data Read"
               property: "data-read-numeric"
               label_map:
                   pool: "pool"
                   serial-number: "serial"
-            - name: "pool_data_written"
+            - name: "pool_write_bytes_total"
               desc: "Data Written"
               property: "data-written-numeric"
               label_map:
                   pool: "pool"
                   serial-number: "serial"
-            - name: "pool_avg_resp_time"
+            - name: "pool_io_time_microseconds_average"
               desc: "I/O Response Time"
               property: "avg-rsp-time"
               label_map:
                   pool: "pool"
                   serial-number: "serial"
-            - name: "pool_avg_resp_time_read"
+            - name: "pool_read_time_microseconds_average"
               desc: "Read Response Time"
               property: "avg-read-rsp-time"
               label_map:
@@ -407,49 +433,49 @@ metrics:
         xpath: "/RESPONSE/OBJECT[@name='pool-statistics']/OBJECT[@name='tier-statistics']"
         objects:
           tier-statistics:
-            - name: "tier_reads"
+            - name: "tier_reads_total"
               desc: "Reads"
               property: "number-of-reads"
               label_map:
                   tier: "tier"
                   pool: "pool"
                   serial-number: "serial"
-            - name: "tier_writes"
+            - name: "tier_writes_total"
               desc: "Writes"
               property: "number-of-writes"
               label_map:
                   tier: "tier"
                   pool: "pool"
                   serial-number: "serial"
-            - name: "tier_data_read"
+            - name: "tier_read_bytes_total"
               desc: "Data Read"
               property: "data-read-numeric"
               label_map:
                   tier: "tier"
                   pool: "pool"
                   serial-number: "serial"
-            - name: "tier_data_written"
+            - name: "tier_write_bytes_total"
               desc: "Data Written"
               property: "data-written-numeric"
               label_map:
                   tier: "tier"
                   pool: "pool"
                   serial-number: "serial"
-            - name: "tier_avg_resp_time"
+            - name: "tier_io_time_microseconds_average"
               desc: "I/O Response Time"
               property: "avg-rsp-time"
               label_map:
                   tier: "tier"
                   pool: "pool"
                   serial-number: "serial"
-            - name: "tier_avg_resp_time_read"
+            - name: "tier_read_time_microseconds_average"
               desc: "Read Response Time"
               property: "avg-read-rsp-time"
               label_map:
                   tier: "tier"
                   pool: "pool"
                   serial-number: "serial"
-            - name: "tier_avg_resp_time_write"
+            - name: "tier_write_time_microseconds_average"
               desc: "Write Response Time"
               property: "avg-write-rsp-time"
               label_map:
@@ -460,19 +486,19 @@ metrics:
         xpath: "/RESPONSE/OBJECT[@name='pools']"
         objects:
           pools:
-            - name: "pool_total_size"
+            - name: "pool_size_blocks"
               desc: "Total Size"
               property: "total-size-numeric"
               label_map:
                   name: "pool"
                   serial-number: "serial"
-            - name: "pool_available_size"
+            - name: "pool_free_blocks"
               desc: "Available Size"
               property: "total-avail-numeric"
               label_map:
                   name: "pool"
                   serial-number: "serial"
-            - name: "pool_snapshot_size"
+            - name: "pool_snapshot_blocks"
               desc: "Snapshot Size"
               property: "snap-size-numeric"
               label_map:
@@ -490,31 +516,31 @@ metrics:
               label_map:
                   name: "pool"
                   serial-number: "serial"
-            - name: "pool_metadata_volume_size"
+            - name: "pool_metadata_blocks"
               desc: "Metadata Volume Size"
               property: "metadata-vol-size-numeric"
               label_map:
                   name: "pool"
                   serial-number: "serial"
-            - name: "pool_total_rfc_size"
+            - name: "pool_read_cache_blocks"
               desc: "Total RFC Size"
               property: "total-rfc-size-numeric"
               label_map:
                   name: "pool"
                   serial-number: "serial"
-            - name: "pool_available_rfc_size"
+            - name: "pool_read_cache_free_blocks"
               desc: "Available RFC Size"
               property: "available-rfc-size-numeric"
               label_map:
                   name: "pool"
                   serial-number: "serial"
-            - name: "pool_reserved_size"
+            - name: "pool_reserved_blocks"
               desc: "Reserved Size"
               property: "reserved-size-numeric"
               label_map:
                   name: "pool"
                   serial-number: "serial"
-            - name: "pool_unallocated_reserved_size"
+            - name: "pool_reserved_free_blocks"
               desc: "Unallocated Reserved Size"
               property: "reserved-unalloc-size-numeric"
               label_map:
@@ -524,7 +550,7 @@ metrics:
         xpath: "/RESPONSE/OBJECT[@name='enclosures']"
         objects:
           enclosures:
-            - name: "enclosure_power"
+            - name: "enclosure_power_watts"
               desc: "Power consumption in watts"
               property: "enclosure-power"
               label_map:
@@ -550,37 +576,47 @@ metrics:
         xpath: "/RESPONSE/OBJECT[@name='controller-statistics']"
         objects:
           controller-statistics:
-            - name: "controller_cpu"
+            - name: "controller_cpu_usage_percent"
               desc: "CPU Load"
               property: "cpu-load"
               label_map:
                   durable-id: "controller"
-            - name: "controller_iops"
-              desc: "IOPS"
-              property: "iops"
+            - name: "controller_reads_total"
+              desc: "Reads"
+              property: "number-of-reads"
               label_map:
                   durable-id: "controller"
-            - name: "controller_bps"
-              desc: "Bytes per second"
-              property: "bytes-per-second-numeric"
+            - name: "controller_writes_total"
+              desc: "Writes"
+              property: "number-of-writes"
               label_map:
                   durable-id: "controller"
-            - name: "controller_read_hits"
+            - name: "controller_read_bytes_total"
+              desc: "Data Read"
+              property: "data-read-numeric"
+              label_map:
+                  durable-id: "controller"
+            - name: "controller_write_bytes_total"
+              desc: "Data Written"
+              property: "data-written-numeric"
+              label_map:
+                  durable-id: "controller"
+            - name: "controller_read_cache_hits_total"
               desc: "Read-Cache Hits"
               property: "read-cache-hits"
               label_map:
                   durable-id: "controller"
-            - name: "controller_read_misses"
+            - name: "controller_read_cache_misses_total"
               desc: "Read-Cache Misses"
               property: "read-cache-misses"
               label_map:
                   durable-id: "controller"
-            - name: "controller_write_hits"
+            - name: "controller_write_cache_hits_total"
               desc: "Write-Cache Hits"
               property: "write-cache-hits"
               label_map:
                   durable-id: "controller"
-            - name: "controller_write_misses"
+            - name: "controller_write_cache_misses_total"
               desc: "Write-Cache Misses"
               property: "write-cache-misses"
               label_map:
