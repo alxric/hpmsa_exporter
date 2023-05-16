@@ -9,8 +9,6 @@ type object struct {
 	Property []property `xml:"PROPERTY"`
 	BaseType string     `xml:"basetype,attr"`
 	Name     string     `xml:"name,attr"`
-	OID      string     `xml:oid,attr"`
-	Format   string     `xml:format,attr"`
 }
 
 type property struct {
