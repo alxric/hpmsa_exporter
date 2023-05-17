@@ -56,30 +56,45 @@ metrics:
               label_map:
                   location: "location"
                   serial-number: "serial"
+                  disk-group: "diskgroup"
+                  storage-pool-name: "pool"
+                  storage-tier: "tier"
             - name: "disk_io_time_microseconds_average"
               desc: "Average I/O Response Time"
               property: "avg-rsp-time"
               label_map:
                   location: "location"
                   serial-number: "serial"
+                  disk-group: "diskgroup"
+                  storage-pool-name: "pool"
+                  storage-tier: "tier"
             - name: "disk_ssd_life_left_percent"
               desc: "SSD Life Remaining"
               property: "ssd-life-left-numeric"
               label_map:
                   location: "location"
                   serial-number: "serial"
+                  disk-group: "diskgroup"
+                  storage-pool-name: "pool"
+                  storage-tier: "tier"
             - name: "disk_hours"
               desc: "Power on hours"
               property: "power-on-hours"
               label_map:
                   location: "location"
                   serial-number: "serial"
+                  disk-group: "diskgroup"
+                  storage-pool-name: "pool"
+                  storage-tier: "tier"
             - name: "disk_health"
               desc: "Health"
               property: "health-numeric"
               label_map:
                   location: "location"
                   serial-number: "serial"
+                  disk-group: "diskgroup"
+                  storage-pool-name: "pool"
+                  storage-tier: "tier"
       - path: "disk-statistics"
         xpath: "/RESPONSE/OBJECT[@name='disk-statistics']"
         objects:
@@ -267,26 +282,31 @@ metrics:
               property: "health-numeric"
               label_map:
                   volume-name: "volume"
+                  storage-pool-name: "pool"
             - name: "volume_size_blocks"
               desc: "Size"
               property: "size-numeric"
               label_map:
                   volume-name: "volume"
+                  storage-pool-name: "pool"
             - name: "volume_total_size_blocks"
               desc: "Total Size"
               property: "total-size-numeric"
               label_map:
                   volume-name: "volume"
+                  storage-pool-name: "pool"
             - name: "volume_allocated_size_blocks"
               desc: "Allocated Size"
               property: "allocated-size-numeric"
               label_map:
                   volume-name: "volume"
+                  storage-pool-name: "pool"
             - name: "volume_blocks"
               desc: "Blocks"
               property: "blocks"
               label_map:
                   volume-name: "volume"
+                  storage-pool-name: "pool"
       - path: "volume-statistics"
         xpath: "/RESPONSE/OBJECT[@name='volume-statistics']"
         objects:
@@ -389,6 +409,69 @@ metrics:
                   volume-name: "volume"
               labels:
                   tier: "RFC"
+      - path: "disk-groups"
+        xpath: "/RESPONSE/OBJECT[@name='disk-group']"
+        objects:
+          disk-group:
+            - name: "diskgroup_health"
+              desc: "Health"
+              property: "health-numeric"
+              label_map:
+                  name: "diskgroup"
+                  pool: "pool"
+                  storage-tier: "tier"
+            - name: "diskgroup_size_blocks"
+              desc: "Size"
+              property: "size-numeric"
+              label_map:
+                  name: "diskgroup"
+                  pool: "pool"
+                  storage-tier: "tier"
+            - name: "diskgroup_raw_size_blocks"
+              desc: "Total Size"
+              property: "raw-size-numeric"
+              label_map:
+                  name: "diskgroup"
+                  pool: "pool"
+                  storage-tier: "tier"
+            - name: "diskgroup_free_blocks"
+              desc: "Free Space"
+              property: "freespace-numeric"
+              label_map:
+                  name: "diskgroup"
+                  pool: "pool"
+                  storage-tier: "tier"
+            - name: "diskgroup_blocks"
+              desc: "Blocks"
+              property: "blocks"
+              label_map:
+                  storage-tier: "tier"
+                  name: "diskgroup"
+                  pool: "pool"
+      - path: "disk-group-statistics"
+        xpath: "/RESPONSE/OBJECT[@name='disk-group-statistics']"
+        objects:
+          disk-group-statistics:
+            - name: "diskgroup_reads_total"
+              desc: "Reads"
+              property: "number-of-reads"
+              label_map:
+                  name: "diskgroup"
+            - name: "diskgroup_writes_total"
+              desc: "Writes"
+              property: "number-of-writes"
+              label_map:
+                  name: "diskgroup"
+            - name: "diskgroup_read_bytes_total"
+              desc: "Data Read"
+              property: "data-read-numeric"
+              label_map:
+                  name: "diskgroup"
+            - name: "diskgroup_write_bytes_total"
+              desc: "Data Written"
+              property: "data-written-numeric"
+              label_map:
+                  name: "diskgroup"
       - path: "pool-statistics"
         xpath: "/RESPONSE/OBJECT[@name='pool-statistics']"
         objects:
